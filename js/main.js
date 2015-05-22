@@ -11,16 +11,16 @@ var width = window.innerWidth,
 seedFragName = 'randomSeed';
 seedVertName = 'seed';
 shaderFragName = 'gameOfLife';
-shaderVertName = 'gameOfLife';
+shaderVertName = 'rule';
 
 // Load seed fragment shader
-loadTextFile('shaders/' + seedFragName + '.frag',function(t){seed.frag = t});
+loadTextFile('shaders/seeds/' + seedFragName + '.frag',function(t){seed.frag = t});
 // Load seed vertex shader
-loadTextFile('shaders/' + seedVertName + '.vert',function(t){seed.vert = t});
+loadTextFile('shaders/seeds/' + seedVertName + '.vert',function(t){seed.vert = t});
 // Load shader fragment
-loadTextFile('shaders/' + shaderFragName + '.frag',function(t){shader.frag = t});
+loadTextFile('shaders/rules/' + shaderFragName + '.frag',function(t){shader.frag = t});
 // Load shader vertex
-loadTextFile('shaders/' + shaderVertName + '.vert',function(t){shader.vert = t});
+loadTextFile('shaders/rules/' + shaderVertName + '.vert',function(t){shader.vert = t});
 
 init();
 animate();
