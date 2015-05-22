@@ -1,11 +1,26 @@
 var camera, textures, renderer, resultScene, quad;
+var seed = {},
+    shader = {};
 var flag = 0;
 
 var container = document.getElementById( 'canvas' );
-container.style.textAlign = 'center';
 
 var width = window.innerWidth,
     height = window.innerHeight;
+
+seedFragName = 'squareSeed';
+seedVertName = 'seed';
+shaderFragName = 'pulse';
+shaderVertName = 'gameOfLife';
+
+// Load seed fragment shader
+loadTextFile('/shaders/' + seedFragName + '.frag',function(t){seed.frag = t});
+// Load seed vertex shader
+loadTextFile('/shaders/' + seedVertName + '.vert',function(t){seed.vert = t});
+// Load shader fragment
+loadTextFile('/shaders/' + shaderFragName + '.frag',function(t){shader.frag = t});
+// Load shader vertex
+loadTextFile('/shaders/' + shaderVertName + '.vert',function(t){shader.vert = t});
 
 init();
 animate();
@@ -23,7 +38,7 @@ function init(){
 
   // Create a Root Scene and
   // a result to iterate upon
-  rootScene = new THREE.Scene();
+  seedScene = new THREE.Scene();
   resultScene = new THREE.Scene();
 
   function newTexture(){
@@ -37,24 +52,22 @@ function init(){
 
   textures = [newTexture(), newTexture()];
 
-  var plane = new THREE.PlaneBufferGeometry( 
-      width, height);
+  var plane = new THREE.PlaneBufferGeometry(width, height);
 
-  // Add a quad to the root scene
+  // Add a quad to the seed scene
   quad = new THREE.Mesh( plane,
 		 new THREE.ShaderMaterial( {
          uniforms: {
            'scale' : {type: 'v2', value: new THREE.Vector2(width,height)}
          },
-					vertexShader: THREE.seedShader.vertexShader,
-					fragmentShader: THREE.seedShader.fragmentShader,
+					vertexShader: seed.vert,
+					fragmentShader: seed.frag,
 					//depthWrite: false
 				})
      );
   quad.position.z = -100;
-  rootScene.add( quad );
+  seedScene.add( quad );
 
-  shader = THREE.celAutShader;
 
   // Add a quad to the result scene
   quad = new THREE.Mesh( plane,
@@ -64,8 +77,8 @@ function init(){
          'scale' : {type: 'v2', value: new THREE.Vector2(width,height)},
          'mouse' : {type: 'v2', value: new THREE.Vector2(-10,-10)}
        },
-					vertexShader: shader.vertexShader,
-					fragmentShader: shader.fragmentShader,
+					vertexShader: shader.vert,
+					fragmentShader: shader.frag,
 					//depthWrite: false
 				})
      );
@@ -79,11 +92,9 @@ function init(){
 
   renderer.domElement.addEventListener( "mousemove", onMouseMove, false );
 
-  // Render the root scene
-  renderer.render( rootScene, camera, textures[0], true );
-  renderer.render( rootScene, camera );
+  // Render the seed scene
+  renderer.render( seedScene, camera, textures[0], true );
 }
-
 
 function animate() {
   requestAnimationFrame( animate );
@@ -115,4 +126,13 @@ function onMouseMove(event){
 
 function keyup(e){
 
+}
+
+function loadTextFile(url, callback) {
+  var request = new XMLHttpRequest();
+  request.open('GET', url, false);
+  request.addEventListener('load', function() {
+     callback(request.responseText);
+  })
+  request.send();
 }
