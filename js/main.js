@@ -8,9 +8,9 @@ var container = document.getElementById( 'canvas' );
 var width = window.innerWidth,
     height = window.innerHeight;
 
-seedFragName = 'squareSeed';
+seedFragName = 'randomSeed';
 seedVertName = 'seed';
-shaderFragName = 'pulse';
+shaderFragName = 'gameOfLife';
 shaderVertName = 'gameOfLife';
 
 // Load seed fragment shader
