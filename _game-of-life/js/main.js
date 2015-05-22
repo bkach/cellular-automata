@@ -43,6 +43,9 @@ function init(){
   // Add a quad to the root scene
   quad = new THREE.Mesh( plane,
 		 new THREE.ShaderMaterial( {
+         uniforms: {
+           'scale' : {type: 'v2', value: new THREE.Vector2(width,height)}
+         },
 					vertexShader: THREE.seedShader.vertexShader,
 					fragmentShader: THREE.seedShader.fragmentShader,
 					//depthWrite: false
@@ -78,12 +81,13 @@ function init(){
 
   // Render the root scene
   renderer.render( rootScene, camera, textures[0], true );
+  renderer.render( rootScene, camera );
 }
 
 
 function animate() {
-   requestAnimationFrame( animate );
-	//setTimeout(animate,1);
+  requestAnimationFrame( animate );
+  //setTimeout(animate,1000/1);
 	render();
 }
 
