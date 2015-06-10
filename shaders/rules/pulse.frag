@@ -25,6 +25,7 @@ void main(){
     neighbor(1, 1));
 
   if(distance(vec2(gl_FragCoord.x,gl_FragCoord.y),mouse) < 5.0){
+  /*if(distance(gl_FragCoord.x,mouse.x) < 1.0){*/
     gl_FragColor = vec4(1.0);
   }
   else if(sum == 3){
